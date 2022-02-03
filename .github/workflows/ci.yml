@@ -1,4 +1,4 @@
-name: ontology-retriever ci
+name: user-feature-manager
 
 on:
   push:
