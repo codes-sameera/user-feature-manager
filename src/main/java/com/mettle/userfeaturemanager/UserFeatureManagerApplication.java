@@ -1,4 +1,4 @@
-package com.sam.userfeaturemanager;
+package com.mettle.userfeaturemanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
