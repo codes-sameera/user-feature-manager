@@ -30,6 +30,6 @@ public class FeatureController {
     public List<Feature> fetchFeaturesForLoggedInUser(Principal principal) {
         // if user is an admin, all features are returned
         return featureService.fetchFeatures(((MyUserDetails)((UsernamePasswordAuthenticationToken) principal)
-                .getPrincipal()).getId(), UserUtils.isAdmin((UsernamePasswordAuthenticationToken) principal));
+                .getPrincipal()).getUsername(), UserUtils.isAdmin((UsernamePasswordAuthenticationToken) principal));
     }
 }

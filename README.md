@@ -7,31 +7,30 @@ The user-feature-manager exposes the following APIs:
 
 ![](images/api-documentation.PNG?raw=true "Title")
 
-For more details, once the service is running in Debug mode, visit - localhost:8080/user-feature-manager/swagger-ui/index.html
+Appropriate status and response resources are returned with suitable HTTP status codes in case of problems 
 
-If there is a problem with the database, `INTERNAL_SERVER_ERROR` status is returned<br>
-If there is no ontology for the given id, `BAD_REQUEST` status is returned<br>
+For more details, visit - http://localhost:8080/user-feature-manager/swagger-ui/index.html, once the service is running in Debug mode
 
-### Usecases Implemented
+### Use cases Implemented
 - User can register
-- User can login
+- User can log in
 - Admin User can create a feature
 - Admin User can create a role
 - Admin User can retrieve all the features
 - Admin User can retrieve all the roles
 - Admin User can enable a feature to a User
 - Admin User can assign a role to a User
-- Any User can see the features enabled for him and all the globally enabled features
+- Any User can see the features enabled for them and all the globally enabled features
 
 ### Running the service
 The service starts up in with DEBUG flag enabled - thus the API documentation and the H2 Database console endpoints are whitelisted from authentication.
 This can be disabled in the application.properties. Debug logs are disabled by default, and they can also be enabled in the application.properties.
 
-- The easiest way to get the service up is by running the docker - **docker run sameeracodes/user-feature-manager**
-- Alternatively, the jar can be build after downloading the source using - **gradlew build**, and then executed
-- Alternatively, **gradlew bootrun** can also be executed
-- API Documentation is available at localhost:8080/user-feature-manager/swagger-ui/index.html
-- H2 database console is available at localhost:8080/user-feature-manager/h2-console
+- The easiest way to get the service up is by running the docker - ```docker run sameeracodes/user-feature-manager```
+- Alternatively, the jar can be build after downloading the source using - ```gradlew build```, and then executed
+- Alternatively, ```gradlew bootrun``` can also be executed
+- API Documentation is available at http://localhost:8080/user-feature-manager/swagger-ui/index.html
+- H2 database console is available at http://localhost:8080/user-feature-manager/h2-console
 - For consuming the API endpoints are admin user, the following jwt token can be used -
   - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlt7ImF1dGhvcml0eSI6IkFETUlOIn1dLCJleHAiOjE2NDUzMTU0MjEsImlhdCI6MTY0Mzg0NDI1MX0.QwaSHFVLeg16jg7FEOky09izWoMkInWmRn73Zs45G_o
 - For consuming the API endpoints are regular user, the following jwt token can be used -

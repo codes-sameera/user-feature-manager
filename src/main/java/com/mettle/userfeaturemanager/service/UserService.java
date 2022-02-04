@@ -1,10 +1,7 @@
 package com.mettle.userfeaturemanager.service;
 
 import com.mettle.userfeaturemanager.model.MyUserDetails;
-import com.mettle.userfeaturemanager.model.communication.FeatureUpdatingInfo;
-import com.mettle.userfeaturemanager.model.communication.Role;
-import com.mettle.userfeaturemanager.model.communication.RoleUpdatingInfo;
-import com.mettle.userfeaturemanager.model.communication.User;
+import com.mettle.userfeaturemanager.model.communication.*;
 import com.mettle.userfeaturemanager.model.mapper.UserMapper;
 import com.mettle.userfeaturemanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +22,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    public User fetchUser (Long id) {
-        return userMapper.map(userRepository.findById(id).get());
+    public User fetchUser (String username) {
+        return userMapper.map(getUser(username));
     }
 
-    public boolean updateFeatures(Long userid, FeatureUpdatingInfo featureUpdatingInfo) {
+    public Status updateFeatures(Long userid, FeatureUpdatingInfo featureUpdatingInfo) {
         com.mettle.userfeaturemanager.model.datastore.User user = userRepository.findById(userid).get();
         user.getFeatures().addAll(
                 featureUpdatingInfo.getFeatureIds().stream().map(featureId -> {
@@ -41,11 +38,10 @@ public class UserService implements UserDetailsService {
                 }).collect(Collectors.toList())
         );
         userRepository.save(user);
-        return true;
-        // TODO: User not found exception to be handled, return type status
+        return new Status("Features added to user");
     }
 
-    public boolean  updateRole(Long userid, RoleUpdatingInfo roleUpdatingInfo) {
+    public Status updateRole(Long userid, RoleUpdatingInfo roleUpdatingInfo) {
         com.mettle.userfeaturemanager.model.datastore.Role role
                 = new com.mettle.userfeaturemanager.model.datastore.Role();
         role.setId(roleUpdatingInfo.getRoleId());
@@ -54,15 +50,13 @@ public class UserService implements UserDetailsService {
         user.setRole(role);
 
         userRepository.save(user);
-        return true;
-        // TODO: User not found exception to be handled, return type status
+        return new Status("Role added to user");
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<com.mettle.userfeaturemanager.model.datastore.User> user = userRepository.findByUsername(username);
-        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
-        return user.map(MyUserDetails::new).get();
+        getUser(username);
+        return userRepository.findByUsername(username).map(MyUserDetails::new).get();
     }
 
     public User createUser(User user) {
@@ -73,5 +67,9 @@ public class UserService implements UserDetailsService {
         User createdUser = userMapper.map(userRepository.save(userMapper.map(user)));
         createdUser.setPassword(null);
         return createdUser;
+    }
+
+    private com.mettle.userfeaturemanager.model.datastore.User getUser(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " does not exist"));
     }
 }

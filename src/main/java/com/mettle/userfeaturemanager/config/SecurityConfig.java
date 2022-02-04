@@ -1,5 +1,6 @@
 package com.mettle.userfeaturemanager.config;
 
+import com.mettle.userfeaturemanager.filter.FilterChainExceptionHandler;
 import com.mettle.userfeaturemanager.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
+
+	@Autowired
+	private FilterChainExceptionHandler filterChainExceptionHandler;
 	
 	private static final String[] AUTH_WHITELIST = {
             // public end points
@@ -103,6 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		.anyRequest().authenticated().and().exceptionHandling().and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
     }
 
 }

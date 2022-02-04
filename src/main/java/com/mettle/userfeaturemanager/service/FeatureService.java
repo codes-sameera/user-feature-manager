@@ -22,13 +22,13 @@ public class FeatureService {
     @Autowired
     private UserService userService;
 
-    public List<Feature> fetchFeatures(Long userId, boolean isAdmin) {
+    public List<Feature> fetchFeatures(String username, boolean isAdmin) {
         if (isAdmin) {
             return featureRepository.findAll().stream()
                     .map(feature -> featureMapper.map(feature))
                     .collect(Collectors.toList());
         } else {
-            List<Feature> allFeatures = userService.fetchUser(userId).getFeatures();
+            List<Feature> allFeatures = userService.fetchUser(username).getFeatures();
             allFeatures.addAll(fetchGloballyEnabledFeatures());
             return allFeatures;
         }

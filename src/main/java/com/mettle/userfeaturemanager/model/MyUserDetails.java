@@ -15,7 +15,6 @@ public class MyUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 4294454865198678177L;
 
-	private Long id;
 	private String userName;
 	private String password;
 	private boolean active;
@@ -24,7 +23,6 @@ public class MyUserDetails implements UserDetails {
 	public MyUserDetails(User user) {
 		this.userName = user.getUsername();
 		this.password = user.getPassword();
-		this.id = user.getId();
 		this.active = true;
 		String role = "";
 		Optional<Role> roleData = Optional.ofNullable(user.getRole());
@@ -66,13 +64,5 @@ public class MyUserDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return active;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 }
