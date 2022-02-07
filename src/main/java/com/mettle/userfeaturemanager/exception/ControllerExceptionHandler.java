@@ -48,13 +48,13 @@ public class ControllerExceptionHandler {
     return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
   }
 
-  private ResponseEntity<ErrorMessage> createErrorResponse(HttpStatus notFound, String ex, WebRequest request) {
+  private ResponseEntity<ErrorMessage> createErrorResponse(HttpStatus httpStatus, String ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(
-            notFound.value(),
+            httpStatus.value(),
             new Date(),
             ex,
             request.getDescription(false));
-    return new ResponseEntity<ErrorMessage>(message, notFound);
+    return new ResponseEntity<ErrorMessage>(message, httpStatus);
   }
 }
 

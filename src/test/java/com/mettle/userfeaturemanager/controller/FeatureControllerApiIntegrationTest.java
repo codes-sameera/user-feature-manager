@@ -57,18 +57,18 @@ class FeatureControllerApiIntegrationTest {
         feature.setStatus(true);
         feature.setName("Hikaru's feature");
 
-        User storedUser = new User();
-        storedUser.setUsername("admin");
-        storedUser.setPassword("$2a$10$gH406Lv5Ow4qbRXJyA76cuRa2o3DXyOmJVpz30zoMo0Iu2OyDRiAC");
+        User storedAdminUser = new User();
+        storedAdminUser.setUsername("admin");
+        storedAdminUser.setPassword("$2a$10$gH406Lv5Ow4qbRXJyA76cuRa2o3DXyOmJVpz30zoMo0Iu2OyDRiAC");
         Role role = new Role();
         role.setName("ADMIN");
-        storedUser.setRole(role);
-        UserDetails user = new MyUserDetails(storedUser);
+        storedAdminUser.setRole(role);
+        UserDetails adminUser = new MyUserDetails(storedAdminUser);
 
         when(featureService.createFeature(feature)).thenReturn(feature);
         when(jwtUtil.extractUsername("someJWTToken")).thenReturn("admin");
-        when(userService.loadUserByUsername("admin")).thenReturn(user);
-        when(jwtUtil.validateToken("someJWTToken", user)).thenReturn(true);
+        when(userService.loadUserByUsername("admin")).thenReturn(adminUser);
+        when(jwtUtil.validateToken("someJWTToken", adminUser)).thenReturn(true);
     }
 
     @Test
