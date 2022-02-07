@@ -39,7 +39,7 @@ This can be disabled in the application.properties. Debug logs are disabled by d
 ### Developer Notes
 - The CI
     - Builds on every commit to the master and on every pull request to the master
-    - Executes gradle build, i.e., compilation and unit tests
+    - Executes gradle build, i.e., compilation and unit and integration tests
     - Builds a docker image and publishes to a repository in docker hub; this image can be used to deploy the service
 - Aspect **(Spring AOP)** is used for logging API calls made to the application and debug logs in all the methods
 - Different model is used for storage to the database and for API communication
@@ -52,8 +52,7 @@ This can be disabled in the application.properties. Debug logs are disabled by d
 - The JWT token expiry date is intentionally set for a long time, to enable ease of manual testing, typically this is same as the session timeout
 - ##### TO DO:
   - validation of the incoming REST resources
-  - more unit tests
-  - more end-to-end tests
+  - complete suite of unit and integration tests
   - java-docs for public methods
   - use a parameter store instead of application.properties
   - paging
